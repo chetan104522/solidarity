@@ -103,7 +103,7 @@ const LoginPage: React.FC = () => {
               transition={{ delay: 0.4 }}
               className="text-gray-600"
             >
-              Continue your learning journey with LearnHub
+              Continue your learning journey with solidarity
             </motion.p>
           </div>
 
@@ -299,7 +299,7 @@ const LoginPage: React.FC = () => {
               className="text-center mb-12"
             >
               <GraduationCap className="w-24 h-24 mx-auto mb-6" />
-              <h2 className="text-4xl font-bold mb-4">LearnHub Academy</h2>
+              <h2 className="text-4xl font-bold mb-4">Solidarity</h2>
               <p className="text-blue-100 text-lg">
                 Join millions of learners worldwide
               </p>
@@ -333,7 +333,7 @@ const LoginPage: React.FC = () => {
               className="mt-12 p-6 bg-white/10 rounded-xl backdrop-blur-sm"
             >
               <p className="text-blue-100 italic mb-4">
-                "LearnHub transformed my career. The courses are amazing and the community is incredibly supportive!"
+                "solidarity transformed my career. The courses are amazing and the community is incredibly supportive!"
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">

@@ -66,7 +66,7 @@ const router = useRouter();
               transition={{ delay: 0.2 }}
               className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2"
             >
-              Join LearnHub
+              Join Solidarity Today
             </motion.h1>
             <motion.p
               initial={{ y: -10, opacity: 0 }}
@@ -290,7 +290,7 @@ const router = useRouter();
             >
               <GraduationCap className="w-24 h-24 mx-auto mb-4" />
             </motion.div>
-            <h2 className="text-3xl font-bold mb-4">Welcome to LearnHub</h2>
+            <h2 className="text-3xl font-bold mb-4">Welcome to Solidarity</h2>
             <p className="text-blue-100 text-lg mb-6">
               Join thousands of learners, mentors, and counsellors in our vibrant educational community
             </p>
