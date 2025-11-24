@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("student") // student, mentor, counsellor, institute, company, admin
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile   Profile?
+  assessments Assessment[]
+  roadmaps    Roadmap[]
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  bio       String?
+  interests String? // Comma separated for now
+  
+  // Specific fields for different roles can be added here or in separate tables
+}
+
+model Assessment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // psychometric, academic
+  score     Int
+  result    String?  // JSON or text summary
+  createdAt DateTime @default(now())
+}
+
+model Roadmap {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  domain    String
+  status    String   @default("active") // active, completed
+  createdAt DateTime @default(now())
+  
+  days      RoadmapDay[]
+}
+
+model RoadmapDay {
+  id        String   @id @default(cuid())
+  roadmapId String
+  roadmap   Roadmap  @relation(fields: [roadmapId], references: [id])
+  dayNumber Int
+  title     String
+  content   String
+  isLocked  Boolean  @default(true)
+  isCompleted Boolean @default(false)
+}
+
+model MentorProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  expertise   String
+  experience  Int
+  hourlyRate  Int
+  availability String // JSON or text
+  isVerified  Boolean  @default(false)
+}
+
+model InstituteProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  code        String   @unique
+  address     String
+  courses     String   // JSON
+  isVerified  Boolean  @default(false)
+}
+
+model CompanyProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  industry    String
+  website     String?
+  size        String
+  isVerified  Boolean  @default(false)
+}
+
+model Payment {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  amount      Int
+  currency    String   @default("INR")
+  status      String   // pending, success, failed
+  type        String   // assessment, subscription, session
+  referenceId String?
+  createdAt   DateTime @default(now())
+}
+
+model Subscription {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  plan        String   // yearly_365
+  startDate   DateTime @default(now())
+  endDate     DateTime
+  isActive    Boolean  @default(true)
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     User     @relation(fields: [companyId], references: [id])
+  title       String
+  description String
+  type        String   // internship, fulltime
+  location    String
+  stipend     String?
+  createdAt   DateTime @default(now())
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  mentorId    String
+  studentId   String
+  mentor      User     @relation("MentorSessions", fields: [mentorId], references: [id])
+  student     User     @relation("StudentSessions", fields: [studentId], references: [id])
+  scheduledAt DateTime
+  duration    Int      // minutes
+  status      String   // scheduled, completed, cancelled
+  notes       String?
+}
